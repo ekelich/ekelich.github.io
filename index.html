@@ -244,17 +244,17 @@ BATCOMPUTER DATABASE
 <div class="main">
 
 <div class="container">
-<button class="fileButton" onclick="openProfile('ekelich','EKELICH FILE')">EKELICH<br><small>AKA: Jordyn</small></button>
+<button class="fileButton" onclick="openProfile('ekelich','SPOILEDKNIGHT FILE')">SPOILEDKNIGHT<br><small>AKA: Jordyn</small></button>
 <button class="fileButton" onclick="openProfile('fandoms','ARCHIVE: FANDOM LOGS')">ARCHIVE: FANDOM LOGS</button>
 <button class="fileButton" onclick="openProfile('socials','NETWORK: SOCIAL CONNECTIONS')">NETWORK: SOCIAL CONNECTIONS</button>
 <button class="fileButton" onclick="openProfile('submitAnon','SUBMIT ANONYMOUSLY')">SUBMIT ANONYMOUSLY</button>
 </div>
 
 <div id="ekelich" class="profile">
-<h2>EKELICH</h2>
+<h2>SPOILEDKNIGHT</h2>
 <p class="fadeLine"><strong>Alias:</strong> Jordyn</p>
 <p class="fadeLine"><strong>Pronouns:</strong> He/They</p>
-    <p class="fadeLine"><strong>Sexuality:</strong> #lesbian</p>
+<p class="fadeLine"><strong>Sexuality:</strong> #lesbian</p>
 <p class="fadeLine"><strong>Age:</strong> 18</p>
 <p class="fadeLine"><strong>Status:</strong> Active</p>
 <ul>
@@ -265,139 +265,3 @@ BATCOMPUTER DATABASE
 <li class="fadeLine"><strong>Notes:</strong> i am the bite of 87</li>
 </ul>
 </div>
-
-<div id="fandoms" class="profile">
-<h2>ARCHIVE: FANDOM LOGS</h2>
-<ul>
-<li class="fadeLine"><strong>Fandoms:</strong> FNAF, DC, ATLA, TLOK, Wednesday, TMNT</li>
-<li class="fadeLine"><strong>Favorite Characters:</strong>
-  <ul>
-    <li class="fadeLine">Harold Levey / Air Wave</li>
-    <li class="fadeLine">Stephanie Brown / Spoiler</li>
-    <li class="fadeLine">Jonathan Kent / Superboy</li>
-  </ul>
-</li>
-<li class="fadeLine"><strong>Currently Reading:</strong>
-  <ul>
-    <li class="fadeLine">Batgirls</li>
-    <li class="fadeLine">Harley Quinn (2000)</li>
-    <li class="fadeLine">Supergirl: Woman of Tomorrow</li>
-    <li class="fadeLine">All Star Superman</li>
-  </ul>
-</li>
-</ul>
-</div>
-
-<div id="socials" class="profile">
-<h2>NETWORK: SOCIAL CONNECTIONS</h2>
-<ul>
-<li><strong>*Tiktok and Instagram have a number one instead of an L*</strong></li>
-<li class="fadeLine"><strong>Tiktok: </strong>eke1ich</li>
-<li class="fadeLine"><strong>Instagram: </strong>eke1ich</li>
-<li class="fadeLine"><strong>Discord: </strong>spoilbat</li>
-<li class="fadeLine"><strong>Steam: </strong>ekelich</li>
-</ul>
-</div>
-
-<div id="submitAnon" class="profile">
-<h2>SUBMIT ANONYMOUSLY</h2>
-<form id="submitFormAnon" action="https://formsubmit.co/84ff4c033bb189f11b4633b66cd03abe" method="POST">
-<textarea id="anonMessage" name="message" rows="4" placeholder="Type your anonymous message here..."></textarea>
-<button type="submit">Submit</button>
-</form>
-<p id="submitStatus" style="color:#00ff88; margin-top:5px;"></p>
-</div>
-
-</div>
-</div>
-</div>
-
-<script>
-const passwordDisplay = document.getElementById("passwordDisplay");
-const loginButton = document.getElementById("loginButton");
-const access = document.getElementById("access");
-let password="", stars=10, index=0;
-
-function typeStars(){
-    if(index<stars){
-        password+="*";
-        passwordDisplay.textContent=password;
-        index++;
-        setTimeout(typeStars,200);
-    }else{
-        loginButton.style.display="inline-block";
-    }
-}
-typeStars();
-
-function enterSystem(){
-    loginButton.style.display="none";
-    access.style.display="block";
-    setTimeout(()=>{
-        document.getElementById("introScreen").style.display="none";
-        document.getElementById("computerContainer").style.display="flex";
-    },1500);
-}
-
-let currentOpen=null;
-let statusMsg=document.getElementById("statusMessage");
-
-function openProfile(id,name){
-    if(currentOpen && currentOpen!==id){
-        const oldProfile = document.getElementById(currentOpen);
-        oldProfile.style.display='none';
-        oldProfile.querySelectorAll('.fadeLine').forEach(el=>el.classList.remove('visible'));
-    }
-
-    const profile = document.getElementById(id);
-
-    if(profile.style.display==='block'){
-        profile.style.display='none';
-        profile.querySelectorAll('.fadeLine').forEach(el=>el.classList.remove('visible'));
-        currentOpen=null;
-        statusMsg.textContent = name + " closed";
-    } else {
-        profile.style.display='block';
-        currentOpen = id;
-        profile.scrollTop = 0;
-        statusMsg.textContent = name + " opened";
-
-        const lines = profile.querySelectorAll('.fadeLine');
-        lines.forEach((el,i)=>{
-            el.classList.remove('visible');
-            setTimeout(()=>el.classList.add('visible'), i*200);
-        });
-    }
-}
-
-// Anonymous submission
-const anonForm = document.getElementById('submitFormAnon');
-const submitStatus = document.getElementById('submitStatus');
-
-anonForm.addEventListener('submit', function(e){
-    e.preventDefault();
-    const msg = document.getElementById('anonMessage').value.trim();
-    if(!msg){
-        submitStatus.textContent = "Please type a message before submitting!";
-        return;
-    }
-
-    fetch(anonForm.action, {
-        method: 'POST',
-        headers: { 'Accept': 'application/json' },
-        body: new FormData(anonForm)
-    })
-    .then(response => {
-        if(response.ok){
-            submitStatus.textContent = "Message successfully submitted!";
-            document.getElementById('anonMessage').value = "";
-        } else {
-            submitStatus.textContent = "Error submitting message. Please try again.";
-        }
-    })
-    .catch(() => submitStatus.textContent = "Network error. Please check your connection.");
-});
-</script>
-
-</body>
-</html>
